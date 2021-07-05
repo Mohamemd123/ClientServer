@@ -3,6 +3,9 @@ const con_mysql = require("../db");
 router.route('/').get((req, res) => {
 
 });
+router.route('https://insuranseserver.herokuapp.com/').get((req, res) => {
+
+});
 
 router.route('/get_insurance').get((req, res) => {
   console.log('/get_insurance');
@@ -35,14 +38,14 @@ router.route('/get_data').post((req, res) => {
       SEVERITY = "Mid";
     }
 
-    else  {
+    else {
       SEVERITY = "severe";
     }
     con_mysql.query('SET SQL_SAFE_UPDATES = 0;', function (err, result) {
       if (err)
         throw err;
     });
-     var sql=`UPDATE heroku_9e9c0f583dbaf5b.new_requests SET SEVERITY="${SEVERITY}",Review = "Reviewed" WHERE FirstName="${FirstName}";`
+    var sql = `UPDATE heroku_9e9c0f583dbaf5b.new_requests SET SEVERITY="${SEVERITY}",Review = "Reviewed" WHERE FirstName="${FirstName}";`
     con_mysql.query(sql, function (err, result) {
       if (err) throw err;
     });
@@ -54,8 +57,8 @@ router.route('/get_data').post((req, res) => {
 
   });
 
-  
-  
+
+
 
 });
 
