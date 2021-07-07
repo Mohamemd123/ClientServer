@@ -3,9 +3,7 @@ const con_mysql = require("../db");
 router.route('/').get((req, res) => {
 
 });
-router.route('https://insuranseserver.herokuapp.com/').get((req, res) => {
 
-});
 
 router.route('/get_insurance').get((req, res) => {
   console.log('/get_insurance');
@@ -74,8 +72,9 @@ router.route('/add_insurance').post((req, res) => {
   const PrevCompName = req.body.PrevinsuranceCompanyName;
   const PrevinsuranceID = req.body.PrevinsuranceID;
   const PrevNumber = req.body.Previousinsurancenumber;
+  // const insuranceAmount = req.body.insuranceAmountRequested;
   const insuranceAmount = req.body.insuranceAmountRequested;
-  const requestNumber = req.body.requestNumber;
+  let RequestNumber = req.body.RequestNumber;
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, '0');
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -84,16 +83,25 @@ router.route('/add_insurance').post((req, res) => {
   today = dd + '/' + mm + '/' + yyyy;
 
   console.log(today);
+  console.log(req.body);
+  console.log(typeof(RequestNumber));
+  console.log(RequestNumber);
+  // `INSERT INTO heroku_9e9c0f583dbaf5b.new_requests (socialNumber,Lastname, FirstName, Email, Phone, amount, prev_number, prev_id, prev_comp,requestNumber,date,Review)
+  // VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11,"In Review")`,[socialNumber, lastname, firstname, email, insuranceAmount, PrevCompName, PrevinsuranceID, PrevNumber, request_number1, today]
 
 
   con_mysql.query(`INSERT INTO heroku_9e9c0f583dbaf5b.new_requests (socialNumber,Lastname, FirstName, Email, Phone, amount, prev_number, prev_id, prev_comp,requestNumber,date,Review)
-  VALUES ("${socialNumber}","${lastname}","${firstname}","${email}","${phone}","${insuranceAmount}","${PrevCompName}","${PrevinsuranceID}","${PrevNumber}","${requestNumber}","${today}","In Review");`
+  VALUES ("${socialNumber}","${lastname}","${firstname}","${email}","${phone}","${insuranceAmount}","${PrevCompName}","${PrevinsuranceID}","${PrevNumber}","${RequestNumber}","${today}","In Review");`
     , function (err, result) {
       if (err) throw err;
       console.log("new insurance added");
       res.send('New insurance added');
 
     });
+ 
+
+
+
 });
 
 
